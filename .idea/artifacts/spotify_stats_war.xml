@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="spotify-stats:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>spotify-stats</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="spotify-stats.war">
+      <element id="artifact" artifact-name="spotify-stats:war exploded" />
+    </root>
+  </artifact>
+</component>
