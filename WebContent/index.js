@@ -34,7 +34,9 @@ function getParameterByName(target) {
 /**
  * Handles the response from the backend Java servlet.
  *
- * @param data  The JSON data returned from the backend.
+ * @param data  The returned data from the backend servlet. This is in the form of a jsonArray
+ *              whose 0th index contains the key of "user_type" which lets us know if we need
+ *              to redirect the user to the authorization page or if we can display their data.
  */
 function handleResponse(data) {
     let json = JSON.parse(JSON.stringify(data));
@@ -43,14 +45,13 @@ function handleResponse(data) {
     If the user is not authorized, redirect them to the authorization request page. If they are
     are already authorized, log their top artists as a test (will change this later)
      */
-    if (json["user_type"] === "new") {
-        location.href = json["uri"];
+    if (json[0]["user_type"] === "new") {
+        location.href = json[0]["uri"];
     }
     else {
-        console.log(json["top_artists"]);
+        console.log(json);
     }
 }
-
 
 /*
 Makes an HTTP request to the backend Java servlet. Upon success, the returned JSON data is sent

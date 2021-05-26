@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
@@ -52,6 +53,19 @@ public class StatisticsServlet extends HttpServlet {
 		String code = request.getParameter("code");
 
 		try {
+			// Create a new SpotifyApi object.
+			final SpotifyApi api = SpotifyApi.builder()
+					.setClientId(clientId)
+					.setClientSecret(clientSecret)
+					.setRedirectUri(redirectURI)
+					.build();
+
+			/*
+			 Create a new jsonArray - we will send this back to the frontend. Also create a new JsonObject
+			 which we will always put in the 0th index of the jsonArray. This first jsonObject tells our
+			 frontend if the user needs to be redirected to the authorization page.
+			 */
+			JsonArray jsonArray = new JsonArray();
 			JsonObject responseJsonObject = new JsonObject();
 
 			/*
@@ -60,13 +74,6 @@ public class StatisticsServlet extends HttpServlet {
 			we can use it to grab the user's top artists, songs and albums.
 			 */
 			if (code == null) {
-				// Create a new SpotifyApi object.
-				final SpotifyApi api = SpotifyApi.builder()
-						.setClientId(clientId)
-						.setClientSecret(clientSecret)
-						.setRedirectUri(redirectURI)
-						.build();
-
 				/*
 				Use the SpotifyApi object to create a authorization uri request. We set the scope to
 				user-top-read so we can access the user's top artists, songs and albums.
@@ -84,14 +91,17 @@ public class StatisticsServlet extends HttpServlet {
 				 */
 				responseJsonObject.addProperty("user_type", "new");
 				responseJsonObject.addProperty("uri", uri.toString());
+				jsonArray.add(responseJsonObject);
 			}
 			else {
-				// Create a new SpotifyApi object.
-				final SpotifyApi api = SpotifyApi.builder()
-						.setClientId(clientId)
-						.setClientSecret(clientSecret)
-						.setRedirectUri(redirectURI)
-						.build();
+				/*
+				Add the user type as "authorized" and pass back the top artists for the purposes
+				of the test to see if everything is working correctly. We are adding this only to
+				the 0th index of the jsonArray since we just need to check this value once and it
+				will be the same for all of the items in this response.
+				 */
+				responseJsonObject.addProperty("user_type", "authorized");
+				jsonArray.add(responseJsonObject);
 
 				// Use the code param to get an authorization and refresh token.
 				final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
@@ -102,30 +112,23 @@ public class StatisticsServlet extends HttpServlet {
 				api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
 				final GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
-//          .limit(10)
-//          .offset(0)
-//          .time_range("medium_term")
+						.limit(5)
+						.time_range("long_term")
 						.build();
 
 				/*
 				This is just a little test to get top artists, will be changed later.
 				 */
 				final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
-				String artists = "";
 				for (Artist a : artistPaging.getItems()) {
-					artists += (a.getName() + ", ");
+					JsonObject artistJsonObject = new JsonObject();
+					artistJsonObject.addProperty("artist", a.getName());
+					jsonArray.add(artistJsonObject);
 				}
-
-				/*
-				Add the user type as "authorized" and pass back the top artists for the purposes
-				of the test to see if everything is working correctly.
-				 */
-				responseJsonObject.addProperty("user_type", "authorized");
-				responseJsonObject.addProperty("top_artists", artists);
 			}
 
-			// Return the JsonObject to the front end.
-			out.write(responseJsonObject.toString());
+			// Return the JsonArray to the front end.
+			out.write(jsonArray.toString());
 		}
 		catch (Exception e) {
 			// Write an error message
