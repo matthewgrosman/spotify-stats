@@ -112,9 +112,16 @@ public class StatisticsServlet extends HttpServlet {
 				api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
 				final GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
+<<<<<<< HEAD
 						.limit(5)
 						.time_range("long_term")
 						.build();
+=======
+//          .limit(10)
+//          .offset(0)
+//          .time_range("medium_term")
+					.build();
+>>>>>>> 766f969d433723e65bacd5c6d97db567857786e5
 
 				/*
 				This is just a little test to get top artists, will be changed later.
