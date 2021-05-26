@@ -33,18 +33,21 @@ function getParameterByName(target) {
 
 /**
  * Handles the response from the backend Java servlet.
+ *
  * @param data  The JSON data returned from the backend.
  */
 function handleResponse(data) {
-    console.log("got here2");
     let json = JSON.parse(JSON.stringify(data));
-    console.log("got here3");
+
+    /*
+    If the user is not authorized, redirect them to the authorization request page. If they are
+    are already authorized, log their top artists as a test (will change this later)
+     */
     if (json["user_type"] === "new") {
-        // location.href = json["uri"];
-        console.log(json);
+        location.href = json["uri"];
     }
     else {
-        console.log(json);
+        console.log(json["top_artists"]);
     }
 }
 
@@ -60,8 +63,6 @@ let code = getParameterByName("code");
 if (code != null) {
     ajaxURL += "?code=" + code;
 }
-
-console.log("got here");
 
 jQuery.ajax({
     // Set the return type to JSON.
