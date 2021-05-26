@@ -105,7 +105,7 @@ public class StatisticsServlet extends HttpServlet {
 //          .limit(10)
 //          .offset(0)
 //          .time_range("medium_term")
-						.build();
+					.build();
 
 				/*
 				This is just a little test to get top artists, will be changed later.
