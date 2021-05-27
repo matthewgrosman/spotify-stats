@@ -17,12 +17,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
+import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import org.apache.hc.core5.http.ParseException;
 
 @WebServlet(name="StatisticsServlet", urlPatterns="/statisticsServlet")
 public class StatisticsServlet extends HttpServlet {
@@ -102,23 +104,10 @@ public class StatisticsServlet extends HttpServlet {
 				api.setAccessToken(authorizationCodeCredentials.getAccessToken());
 				api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
-				final GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
-						.limit(5)
-						.time_range("long_term")
-						.build();
-
-				/*
-				This is just a little test to get top artists, will be changed later.
-				 */
-				JsonArray long_term_artists = new JsonArray();
-				final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
-				for (Artist a : artistPaging.getItems()) {
-					JsonObject artistJsonObject = new JsonObject();
-					artistJsonObject.addProperty("artist", a.getName());
-					long_term_artists.add(artistJsonObject);
-				}
-
-				responseJsonObject.add("long_term_artists", long_term_artists);
+				// Call getTopArtists for each time period to get the top 50 artists in all three time ranges.
+				responseJsonObject.add("long_term_artists", getTopArtists("long_term", api));
+				responseJsonObject.add("medium_term_artists", getTopArtists("medium_term", api));
+				responseJsonObject.add("short_term_artists", getTopArtists("short_term", api));
 			}
 
 			// Return the JsonObject to the front end.
@@ -146,5 +135,29 @@ public class StatisticsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		doGet(request, response);
+	}
+
+	/**
+	 * Given a time range, return the top 50 artists from that time range.
+	 * @param range	A String representing the time range of the query. The time range can either be
+	 *              short_term, medium_term, or long_term.
+	 * @param api	The current SpotifyApi object we are using for this session.
+	 * @return		A JsonArray containing the top 50 artists from the given time range.
+	 */
+	private JsonArray getTopArtists(String range, SpotifyApi api) throws ParseException, SpotifyWebApiException, IOException {
+		GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
+				.limit(50)
+				.time_range(range)
+				.build();
+
+		JsonArray artists = new JsonArray();
+		final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
+		for (Artist a : artistPaging.getItems()) {
+			JsonObject artistJsonObject = new JsonObject();
+			artistJsonObject.addProperty("artist", a.getName());
+			artists.add(artistJsonObject);
+		}
+
+		return artists;
 	}
 }
