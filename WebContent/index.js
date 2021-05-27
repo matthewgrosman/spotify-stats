@@ -45,8 +45,8 @@ function handleResponse(data) {
     If the user is not authorized, redirect them to the authorization request page. If they are
     are already authorized, log their top artists as a test (will change this later)
      */
-    if (json[0]["user_type"] === "new") {
-        location.href = json[0]["uri"];
+    if (json["user_type"] === "new") {
+        location.href = json["uri"];
     }
     else {
         console.log(json);

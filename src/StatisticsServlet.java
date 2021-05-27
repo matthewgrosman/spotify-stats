@@ -60,12 +60,7 @@ public class StatisticsServlet extends HttpServlet {
 					.setRedirectUri(redirectURI)
 					.build();
 
-			/*
-			 Create a new jsonArray - we will send this back to the frontend. Also create a new JsonObject
-			 which we will always put in the 0th index of the jsonArray. This first jsonObject tells our
-			 frontend if the user needs to be redirected to the authorization page.
-			 */
-			JsonArray jsonArray = new JsonArray();
+
 			JsonObject responseJsonObject = new JsonObject();
 
 			/*
@@ -91,17 +86,13 @@ public class StatisticsServlet extends HttpServlet {
 				 */
 				responseJsonObject.addProperty("user_type", "new");
 				responseJsonObject.addProperty("uri", uri.toString());
-				jsonArray.add(responseJsonObject);
 			}
 			else {
 				/*
-				Add the user type as "authorized" and pass back the top artists for the purposes
-				of the test to see if everything is working correctly. We are adding this only to
-				the 0th index of the jsonArray since we just need to check this value once and it
-				will be the same for all of the items in this response.
+				Add the user type as "authorized" to let the frontend know we don't need to redirect
+				the user to the authorization page.
 				 */
 				responseJsonObject.addProperty("user_type", "authorized");
-				jsonArray.add(responseJsonObject);
 
 				// Use the code param to get an authorization and refresh token.
 				final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
@@ -119,16 +110,19 @@ public class StatisticsServlet extends HttpServlet {
 				/*
 				This is just a little test to get top artists, will be changed later.
 				 */
+				JsonArray long_term_artists = new JsonArray();
 				final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
 				for (Artist a : artistPaging.getItems()) {
 					JsonObject artistJsonObject = new JsonObject();
 					artistJsonObject.addProperty("artist", a.getName());
-					jsonArray.add(artistJsonObject);
+					long_term_artists.add(artistJsonObject);
 				}
+
+				responseJsonObject.add("long_term_artists", long_term_artists);
 			}
 
-			// Return the JsonArray to the front end.
-			out.write(jsonArray.toString());
+			// Return the JsonObject to the front end.
+			out.write(responseJsonObject.toString());
 		}
 		catch (Exception e) {
 			// Write an error message
