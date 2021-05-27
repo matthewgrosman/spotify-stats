@@ -62,36 +62,47 @@ function handleResponse(data) {
 function displayResults(json) {
     let top_results_div = jQuery("#top-results");
 
-    top_results_div.append(buildOrderedList("artist", "Top Artists (Long Term)", json["long_term_artists"]));
-    top_results_div.append(buildOrderedList("artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
-    top_results_div.append(buildOrderedList("artist", "Top Artists (Short Term)", json["short_term_artists"]));
-    top_results_div.append(buildOrderedList("track", "Top Tracks (Long Term)", json["long_term_tracks"]));
-    top_results_div.append(buildOrderedList("track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
-    top_results_div.append(buildOrderedList("track", "Top Tracks (Short Term)", json["short_term_tracks"]));
+    top_results_div.append(buildTable("Artist", "Top Artists (Long Term)", json["long_term_artists"]));
+    top_results_div.append(buildTable("Artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
+    top_results_div.append(buildTable("Artist", "Top Artists (Short Term)", json["short_term_artists"]));
+    top_results_div.append(buildTable("Track", "Top Tracks (Long Term)", json["long_term_tracks"]));
+    top_results_div.append(buildTable("Track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
+    top_results_div.append(buildTable("Track", "Top Tracks (Short Term)", json["short_term_tracks"]));
 }
 
 
-function buildOrderedList(category, list_title, data) {
-    let ordered_list = "<p1>" + list_title + "</p1><ol>";
+function buildTable(category, list_title, data) {
+    let table = "<table border=1><caption>" + list_title + "</caption>" +
+        "<thead><tr><th>Rank</th><th>" + category + "</th>";
+
+    if (category === "Track") {
+        table += "<th>Artist</th>";
+    }
+
+    table += "</tr></thead><tbody>";
+
 
     for(let i = 0; i < data.length; i++) {
-        if (category === "artist") {
-            ordered_list += "<li>" + data[i]["artist_name"] + "</li>";
+        if (category === "Artist") {
+            table += "<tr><td>" + (i+1) + "</td>";
+            table += "<td>" + data[i]["artist_name"] + "</td></tr>";
         }
         else {
-            ordered_list += "<li>" + data[i]["track_name"] + " - ";
+            let track_artists_name = "";
             for (let j = 0; j < data[i]["track_artists"].length; j++) {
-                ordered_list += data[i]["track_artists"][j]["artist"];
+                track_artists_name += data[i]["track_artists"][j]["artist"];
                 if (j < data[i]["track_artists"].length - 1) {
-                    ordered_list += ", ";
+                    track_artists_name += ", ";
                 }
             }
-            ordered_list += "</li>";
+            table += "<tr><td>" + (i+1) + "</td>";
+            table += "<td>" + data[i]["track_name"] + "</td>";
+            table += "<td>" + track_artists_name + "</td></tr>";
         }
     }
 
-    ordered_list += "</ol><br><br>";
-    return ordered_list
+    table += "</tbody></table><br><br>"
+    return table;
 }
 
 /*
