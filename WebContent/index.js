@@ -72,11 +72,11 @@ function displayResults(json) {
 
 
 function buildTable(category, list_title, data) {
-    let table = "<table border=1><caption>" + list_title + "</caption>" +
-        "<thead><tr><th>Rank</th><th>" + category + "</th>";
+    let table = "<table><caption>" + list_title + "</caption>" +
+        "<thead><tr><th align='left'>Rank</th><th align='left'>" + category + "</th>";
 
     if (category === "Track") {
-        table += "<th>Artist</th>";
+        table += "<th align='left'>Artist</th>";
     }
 
     table += "</tr></thead><tbody>";
