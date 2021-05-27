@@ -20,10 +20,13 @@ import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.model_objects.specification.Artist;
+import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
 import com.wrapper.spotify.model_objects.specification.Paging;
+import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
+import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import org.apache.hc.core5.http.ParseException;
 
 @WebServlet(name="StatisticsServlet", urlPatterns="/statisticsServlet")
@@ -108,6 +111,11 @@ public class StatisticsServlet extends HttpServlet {
 				responseJsonObject.add("long_term_artists", getTopArtists("long_term", api));
 				responseJsonObject.add("medium_term_artists", getTopArtists("medium_term", api));
 				responseJsonObject.add("short_term_artists", getTopArtists("short_term", api));
+
+				// Call getTopTracks for each time period to get the top 50 tracks in all three time ranges.
+				responseJsonObject.add("long_term_tracks", getTopTracks("long_term", api));
+				responseJsonObject.add("medium_term_tracks", getTopTracks("medium_term", api));
+				responseJsonObject.add("short_term_tracks", getTopTracks("short_term", api));
 			}
 
 			// Return the JsonObject to the front end.
@@ -154,10 +162,48 @@ public class StatisticsServlet extends HttpServlet {
 		final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
 		for (Artist a : artistPaging.getItems()) {
 			JsonObject artistJsonObject = new JsonObject();
-			artistJsonObject.addProperty("artist", a.getName());
+			artistJsonObject.addProperty("artist_name", a.getName());
 			artists.add(artistJsonObject);
 		}
 
 		return artists;
+	}
+
+	/**
+	 * Given a time range, return the top 50 tracks from that time range.
+	 * @param range	A String representing the time range of the query. The time range can either be
+	 *              short_term, medium_term, or long_term.
+	 * @param api	The current SpotifyApi object we are using for this session.
+	 * @return		A JsonArray containing the top 50 tracks from the given time range.
+	 */
+	private JsonArray getTopTracks(String range, SpotifyApi api) throws ParseException, SpotifyWebApiException, IOException {
+		GetUsersTopTracksRequest getUsersTopTracksRequest = api.getUsersTopTracks()
+				.limit(50)
+				.time_range(range)
+				.build();
+
+		JsonArray tracks = new JsonArray();
+		final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
+		for (Track t : trackPaging.getItems()) {
+			JsonObject trackJsonObject = new JsonObject();
+			trackJsonObject.addProperty("track_name", t.getName());
+
+			/*
+			 Since there may be multiple artists per track, we loop through all of the artists and add
+			 them to a JsonArray, which is then added to the JsonObject.
+			 */
+			JsonArray track_artists = new JsonArray();
+			for (ArtistSimplified a : t.getArtists()) {
+				JsonObject artistJsonObject = new JsonObject();
+				artistJsonObject.addProperty("artist", a.getName());
+				track_artists.add(artistJsonObject);
+			}
+			trackJsonObject.add("track_artists", track_artists);
+
+			trackJsonObject.addProperty("track_album", t.getAlbum().getName());
+			tracks.add(trackJsonObject);
+		}
+
+		return tracks;
 	}
 }
