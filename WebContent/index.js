@@ -34,8 +34,8 @@ function getParameterByName(target) {
 /**
  * Handles the response from the backend Java servlet.
  *
- * @param data  The returned data from the backend servlet. This is in the form of a jsonArray
- *              whose 0th index contains the key of "user_type" which lets us know if we need
+ * @param data  The returned data from the backend servlet. This is in the form of a jsonObject
+ *              which contains the key of "user_type"- this lets us know if we need the site
  *              to redirect the user to the authorization page or if we can display their data.
  */
 function handleResponse(data) {
@@ -49,8 +49,49 @@ function handleResponse(data) {
         location.href = json["uri"];
     }
     else {
-        console.log(json);
+        displayResults(json);
     }
+}
+
+/**
+ * Displays the users top artists and tracks.
+ *
+ * @param json  The top tracks and artists data returned from the backend, formatted
+ *              in JSON.
+ */
+function displayResults(json) {
+    let top_results_div = jQuery("#top-results");
+
+    top_results_div.append(buildOrderedList("artist", "Top Artists (Long Term)", json["long_term_artists"]));
+    top_results_div.append(buildOrderedList("artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
+    top_results_div.append(buildOrderedList("artist", "Top Artists (Short Term)", json["short_term_artists"]));
+    top_results_div.append(buildOrderedList("track", "Top Tracks (Long Term)", json["long_term_tracks"]));
+    top_results_div.append(buildOrderedList("track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
+    top_results_div.append(buildOrderedList("track", "Top Tracks (Short Term)", json["short_term_tracks"]));
+}
+
+
+function buildOrderedList(category, list_title, data) {
+    let ordered_list = "<p1>" + list_title + "</p1><ol>";
+
+    for(let i = 0; i < data.length; i++) {
+        if (category === "artist") {
+            ordered_list += "<li>" + data[i]["artist_name"] + "</li>";
+        }
+        else {
+            ordered_list += "<li>" + data[i]["track_name"] + " - ";
+            for (let j = 0; j < data[i]["track_artists"].length; j++) {
+                ordered_list += data[i]["track_artists"][j]["artist"];
+                if (j < data[i]["track_artists"].length - 1) {
+                    ordered_list += ", ";
+                }
+            }
+            ordered_list += "</li>";
+        }
+    }
+
+    ordered_list += "</ol><br><br>";
+    return ordered_list
 }
 
 /*

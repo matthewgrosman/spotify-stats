@@ -147,6 +147,7 @@ public class StatisticsServlet extends HttpServlet {
 
 	/**
 	 * Given a time range, return the top 50 artists from that time range.
+	 *
 	 * @param range	A String representing the time range of the query. The time range can either be
 	 *              short_term, medium_term, or long_term.
 	 * @param api	The current SpotifyApi object we are using for this session.
@@ -171,6 +172,7 @@ public class StatisticsServlet extends HttpServlet {
 
 	/**
 	 * Given a time range, return the top 50 tracks from that time range.
+	 *
 	 * @param range	A String representing the time range of the query. The time range can either be
 	 *              short_term, medium_term, or long_term.
 	 * @param api	The current SpotifyApi object we are using for this session.
