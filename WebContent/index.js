@@ -5,31 +5,6 @@
  * append to them the appropriate data.
  */
 
-/**
- * Given a parameter name, this function returns the value of that parameter in the URL.
- * For example, the url "https://www.somewebsite.com/?param1=hello", calling
- * getParameterByName("param1") would return "hello". When called with a parameter that
- * does not exist, this function returns null.
- *
- * @param target    a String representing the parameter whose value we want
- * @returns {string|null}
- */
-function getParameterByName(target) {
-    // Get request URL
-    let url = window.location.href;
-
-    // Encode target parameter name to url encoding
-    target = target.replace(/[\[\]]/g, "\\$&");
-
-    // Ues regular expression to find matched parameter value
-    let regex = new RegExp("[?&]" + target + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-
-    // Return the decoded parameter value
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
 
 /**
  * Handles the response from the backend Java servlet.
@@ -40,17 +15,7 @@ function getParameterByName(target) {
  */
 function handleResponse(data) {
     let json = JSON.parse(JSON.stringify(data));
-
-    /*
-    If the user is not authorized, redirect them to the authorization request page. If they are
-    are already authorized, log their top artists as a test (will change this later)
-     */
-    if (json["user_type"] === "new") {
-        location.href = json["uri"];
-    }
-    else {
-        displayResults(json);
-    }
+    displayResults(json);
 }
 
 /**
@@ -71,43 +36,8 @@ function displayResults(json) {
 }
 
 
-function buildTable(category, list_title, data) {
-    // let table = "<table><caption>" + list_title + "</caption>" +
-    //     "<thead><tr><th align='left'>Rank</th><th align='left'>" + category + "</th>";
-    //
-    // if (category === "Track") {
-    //     table += "<th align='left'>Artist</th>";
-    // }
-    //
-    // table += "</tr></thead><tbody>";
-    //
-    //
-    // for(let i = 0; i < data.length; i++) {
-    //     if (category === "Artist") {
-    //         table += "<tr><td>" + (i+1) + "</td>";
-    //         table += "<td>" + data[i]["artist_name"] + "</td></tr>";
-    //     }
-    //     else {
-    //         let track_artists_name = "";
-    //         for (let j = 0; j < data[i]["track_artists"].length; j++) {
-    //             track_artists_name += data[i]["track_artists"][j]["artist"];
-    //             if (j < data[i]["track_artists"].length - 1) {
-    //                 track_artists_name += ", ";
-    //             }
-    //         }
-    //         table += "<tr><td>" + (i+1) + "</td>";
-    //         table += "<td>" + data[i]["track_name"] + "</td>";
-    //         table += "<td>" + track_artists_name + "</td></tr>";
-    //     }
-    // }
-    //
-    // table += "</tbody></table><br><br>"
-    // return table;
-}
-
-
 /**
- *
+ * Builds a list item to add to the top artists or top tracks list.
  *
  * @param category
  * @param data
@@ -145,11 +75,6 @@ to the function handleResponse. Before the call is made, we check to see if we h
 in the url, which is denoted through the "code" parameter. We pass this through in the url.
 */
 let ajaxURL = "statisticsServlet";
-let code = getParameterByName("code");
-
-if (code != null) {
-    ajaxURL += "?code=" + code;
-}
 
 jQuery.ajax({
     // Set the return type to JSON.

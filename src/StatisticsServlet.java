@@ -42,71 +42,17 @@ public class StatisticsServlet extends HttpServlet {
 	 * @throws IOException
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		final String clientId = "649c589d7ba94443ae40c6bc10025966";
-		final String clientSecret = "48c7050d60a646f89663acfd14e208b6";
-		final URI redirectURI = SpotifyHttpManager.makeUri( "http://localhost:8080/spotify-stats/");
-
 		// Create a PrintWriter to write the response back to the front-end
 		PrintWriter out = response.getWriter();
 
 		// Set the response type to JSON
 		response.setContentType("application/json");
 
-//		/*
-//		Get the code parameter, which is only in the url if the user has granted  us access to their
-//		Spotify account. This code parameter is used to generate an access token.
-//		 */
-//		String code = request.getParameter("code");
-
 		try {
-//			// Create a new SpotifyApi object.
-//			final SpotifyApi api = SpotifyApi.builder()
-//					.setClientId(clientId)
-//					.setClientSecret(clientSecret)
-//					.setRedirectUri(redirectURI)
-//					.build();
-//
 
 			JsonObject responseJsonObject = new JsonObject();
 
-			/*
-			Check if the code parameter is present. If it is not present, then we need to send a UriRequest
-			to ask the user for permission to use their Spotify account. If the code is present, then
-			we can use it to grab the user's top artists, songs and albums.
-			 */
-//			if (code == null) {
-//				/*
-//				Use the SpotifyApi object to create a authorization uri request. We set the scope to
-//				user-top-read so we can access the user's top artists, songs and albums.
-//				 */
-//				final AuthorizationCodeUriRequest authorizationCodeUriRequest = api.authorizationCodeUri()
-//						.state("x4xkmn9pu3j6ukrs8n")
-//						.scope("user-top-read")
-//						.show_dialog(true)
-//						.build();
-//				final URI uri = authorizationCodeUriRequest.execute();
-//
-//				/*
-//				Add the user type as "new" (since we need their authorization) and pass back the uri
-//				so we can use it to redirect the user in the frontend to the authorization page.
-//				 */
-//				responseJsonObject.addProperty("user_type", "new");
-//				responseJsonObject.addProperty("uri", uri.toString());
-//			}
-//			else {
-			/*
-			Add the user type as "authorized" to let the frontend know we don't need to redirect
-			the user to the authorization page.
-			 */
-//			responseJsonObject.addProperty("user_type", "authorized");
 
-//			// Use the code param to get an authorization and refresh token.
-//			final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
-//			final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
-//
-//			// Set access and refresh token for the SpotifyApi object
-//			api.setAccessToken(authorizationCodeCredentials.getAccessToken());
-//			api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 			HttpSession session = request.getSession();
 			final SpotifyApi api = (SpotifyApi) session.getAttribute("api_object");
 
