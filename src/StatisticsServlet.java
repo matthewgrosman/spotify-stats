@@ -49,10 +49,9 @@ public class StatisticsServlet extends HttpServlet {
 		response.setContentType("application/json");
 
 		try {
-
 			JsonObject responseJsonObject = new JsonObject();
 
-
+			// Get the SpotifyApi object that was stored in the session in another servlet.
 			HttpSession session = request.getSession();
 			final SpotifyApi api = (SpotifyApi) session.getAttribute("api_object");
 

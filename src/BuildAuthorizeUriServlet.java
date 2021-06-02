@@ -1,8 +1,7 @@
 /**
- * This file communicates with the Spotify API to get the user's top artists, songs
- * and albums. After getting the results from the API, that data is formatted and
- * written back to the front-end, where the JavaScript file index.js parses the data
- * and displays it to the user.
+ * This file communicates builds the uri that sends the user to the Spotify
+ * authorization page to ask them to allow our website to read their Spotify
+ * artists and tracks.
  */
 
 import javax.servlet.annotation.WebServlet;
@@ -13,21 +12,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
-import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import com.wrapper.spotify.model_objects.specification.Artist;
-import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
-import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.Track;
-import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
-import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
-import org.apache.hc.core5.http.ParseException;
 
 @WebServlet(name="BuildAuthorizeUriServlet", urlPatterns="/build-uri")
 public class BuildAuthorizeUriServlet extends HttpServlet {
@@ -59,7 +47,6 @@ public class BuildAuthorizeUriServlet extends HttpServlet {
                     .setRedirectUri(redirectURI)
                     .build();
 
-
             JsonObject responseJsonObject = new JsonObject();
 
             /*
@@ -74,8 +61,8 @@ public class BuildAuthorizeUriServlet extends HttpServlet {
             final URI uri = authorizationCodeUriRequest.execute();
 
             /*
-            Add the user type as "new" (since we need their authorization) and pass back the uri
-            so we can use it to redirect the user in the frontend to the authorization page.
+            Pass back the uri so we can use it to redirect the user in the frontend
+            to the authorization page.
              */
             responseJsonObject.addProperty("uri", uri.toString());
 

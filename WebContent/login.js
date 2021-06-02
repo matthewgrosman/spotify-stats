@@ -1,11 +1,11 @@
 /**
  * Redirect the user to the authorization request page.
  *
- * @param data  he returned data from the backend servlet. This is in the form of a jsonObject
- *              which contains the key of "user_type"- this lets us know if we need the site
- *              to redirect the user to the authorization page or if we can display their data.
+ * @param data  The returned data from the backend servlet which contains the
+ *              redirect uri.
  */
 function redirectUser(data) {
+    // Parse the returned data and redirect the user to the authorization request url.
     let json = JSON.parse(JSON.stringify(data));
     location.href = json["uri"];
 }

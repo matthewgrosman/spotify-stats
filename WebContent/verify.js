@@ -1,4 +1,10 @@
 /**
+ * This is the JavaScript file that sends a request to a Java Servlet to authorize
+ * the user to use the website, as well as create a SpotifyApi object that will be
+ * used to grab the user's top artists and tracks.
+ */
+
+/**
  * Given a parameter name, this function returns the value of that parameter in the URL.
  * For example, the url "https://www.somewebsite.com/?param1=hello", calling
  * getParameterByName("param1") would return "hello". When called with a parameter that
@@ -28,7 +34,6 @@ function getParameterByName(target) {
  * Handles the response from the AJAX call to the Java Servlet.
  */
 function handleResponse(data) {
-    console.log(data);
     // Send the user to index.html, which is the page that displays results
     window.location.href = "index.html"
 }

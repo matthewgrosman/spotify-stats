@@ -13,21 +13,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.SpotifyHttpManager;
-import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import com.wrapper.spotify.model_objects.specification.Artist;
-import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
-import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
-import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
-import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
-import org.apache.hc.core5.http.ParseException;
 
 @WebServlet(name="AuthorizeUserServlet", urlPatterns="/authorize-user")
 public class AuthorizeUserServlet extends HttpServlet {
@@ -60,7 +50,6 @@ public class AuthorizeUserServlet extends HttpServlet {
                     .setRedirectUri(redirectURI)
                     .build();
 
-
             // Use the code parameter to get an authorization and refresh token.
             final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
@@ -79,11 +68,11 @@ public class AuthorizeUserServlet extends HttpServlet {
             session.setAttribute("user_status", "Authorized");
             session.setAttribute("api_object", api);
 
+            // Write something to the front-end so the AJAX query registers as success.
             PrintWriter out = response.getWriter();
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("status", "good");
             out.write(jsonObject.toString());
-
         }
         catch (Exception e) {
             // Create a PrintWriter to write the response back to the front-end

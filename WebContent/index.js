@@ -5,7 +5,6 @@
  * append to them the appropriate data.
  */
 
-
 /**
  * Handles the response from the backend Java servlet.
  *
