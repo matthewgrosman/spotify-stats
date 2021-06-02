@@ -62,48 +62,82 @@ function handleResponse(data) {
 function displayResults(json) {
     let top_results_div = jQuery("#top-results");
 
-    top_results_div.append(buildTable("Artist", "Top Artists (Long Term)", json["long_term_artists"]));
-    top_results_div.append(buildTable("Artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
-    top_results_div.append(buildTable("Artist", "Top Artists (Short Term)", json["short_term_artists"]));
-    top_results_div.append(buildTable("Track", "Top Tracks (Long Term)", json["long_term_tracks"]));
-    top_results_div.append(buildTable("Track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
-    top_results_div.append(buildTable("Track", "Top Tracks (Short Term)", json["short_term_tracks"]));
+    top_results_div.append(buildListItem("Artist", json["long_term_artists"]));
+    // top_results_div.append(buildTable("Artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
+    // top_results_div.append(buildTable("Artist", "Top Artists (Short Term)", json["short_term_artists"]));
+    // top_results_div.append(buildTable("Track", "Top Tracks (Long Term)", json["long_term_tracks"]));
+    // top_results_div.append(buildTable("Track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
+    // top_results_div.append(buildTable("Track", "Top Tracks (Short Term)", json["short_term_tracks"]));
 }
 
 
 function buildTable(category, list_title, data) {
-    let table = "<table><caption>" + list_title + "</caption>" +
-        "<thead><tr><th align='left'>Rank</th><th align='left'>" + category + "</th>";
+    // let table = "<table><caption>" + list_title + "</caption>" +
+    //     "<thead><tr><th align='left'>Rank</th><th align='left'>" + category + "</th>";
+    //
+    // if (category === "Track") {
+    //     table += "<th align='left'>Artist</th>";
+    // }
+    //
+    // table += "</tr></thead><tbody>";
+    //
+    //
+    // for(let i = 0; i < data.length; i++) {
+    //     if (category === "Artist") {
+    //         table += "<tr><td>" + (i+1) + "</td>";
+    //         table += "<td>" + data[i]["artist_name"] + "</td></tr>";
+    //     }
+    //     else {
+    //         let track_artists_name = "";
+    //         for (let j = 0; j < data[i]["track_artists"].length; j++) {
+    //             track_artists_name += data[i]["track_artists"][j]["artist"];
+    //             if (j < data[i]["track_artists"].length - 1) {
+    //                 track_artists_name += ", ";
+    //             }
+    //         }
+    //         table += "<tr><td>" + (i+1) + "</td>";
+    //         table += "<td>" + data[i]["track_name"] + "</td>";
+    //         table += "<td>" + track_artists_name + "</td></tr>";
+    //     }
+    // }
+    //
+    // table += "</tbody></table><br><br>"
+    // return table;
+}
 
-    if (category === "Track") {
-        table += "<th align='left'>Artist</th>";
-    }
 
-    table += "</tr></thead><tbody>";
+/**
+ *
+ *
+ * @param category
+ * @param data
+ * @returns {string}
+ */
+function buildListItem(category, data) {
+    let list_item = "";
 
-
-    for(let i = 0; i < data.length; i++) {
-        if (category === "Artist") {
-            table += "<tr><td>" + (i+1) + "</td>";
-            table += "<td>" + data[i]["artist_name"] + "</td></tr>";
+    if (category === "Artist") {
+        for (let i = 0; i < data.length; i++)  {
+            list_item += "<li>" + data[i]["artist_name"] + "</li>";
         }
-        else {
-            let track_artists_name = "";
+    }
+    else {
+        for (let i = 0; i < data.length; i++) {
+            list_item += ("<li>" + data[i]["track_name"] + " by ");
+
             for (let j = 0; j < data[i]["track_artists"].length; j++) {
-                track_artists_name += data[i]["track_artists"][j]["artist"];
+                list_item += data[i]["track_artists"][j]["artist"];
                 if (j < data[i]["track_artists"].length - 1) {
-                    track_artists_name += ", ";
+                    list_item += ", ";
                 }
             }
-            table += "<tr><td>" + (i+1) + "</td>";
-            table += "<td>" + data[i]["track_name"] + "</td>";
-            table += "<td>" + track_artists_name + "</td></tr>";
+            list_item += "</li>"
         }
     }
 
-    table += "</tbody></table><br><br>"
-    return table;
+    return list_item
 }
+
 
 /*
 Makes an HTTP request to the backend Java servlet. Upon success, the returned JSON data is sent

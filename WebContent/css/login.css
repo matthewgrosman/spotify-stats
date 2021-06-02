@@ -1,9 +1,8 @@
 .info-panel {
     margin: auto;
     width: 40%;
-    border: 3px solid #73AD21;
     padding: 10px;
-    font-family: Georgia;
-    font-size: 300%;
+    font-family: Montserrat;
+    font-size: 150%;
     font-weight: bold;
 }
