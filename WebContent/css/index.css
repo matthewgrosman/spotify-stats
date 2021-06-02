@@ -40,8 +40,9 @@
 
 
 body {
-    background: #1A1E23;
+    /* background: #1A1E23; */
     font-family: 'Montserrat', sans-serif;
+    /* color: white; */
     -webkit-font-smoothing: antialiased;
 }
 
@@ -85,7 +86,7 @@ nav ul li:last-child {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
+    /* color: #fff; */
     text-transform: uppercase;
     display: block;
     font-weight: 600;
@@ -99,12 +100,3 @@ body {
     align-items: center;
     min-height: 100vh;
 }
-
-
-/*@use postcss-preset-env {*/
-/*    stage: 0;*/
-/*    autoprefixer: {*/
-/*        grid: true;*/
-/*    }*/
-/*    browsers: last 2 versions*/
-/*}*/

@@ -20,4 +20,13 @@ button {
     font-size: 16px;
     cursor: pointer;
     margin:1em;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+body {
+    /* background: #1A1E23; */
+    font-family: 'Montserrat', sans-serif;
+    /* color: white; */
+    -webkit-font-smoothing: antialiased;
 }
