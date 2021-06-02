@@ -15,7 +15,7 @@ function redirectUser(data) {
  */
 function authorizeUser() {
     $.ajax(
-        "authorize-user", {
+        "build-uri", {
             method: "POST",
             success: redirectUser
         }

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
@@ -51,20 +52,20 @@ public class StatisticsServlet extends HttpServlet {
 		// Set the response type to JSON
 		response.setContentType("application/json");
 
-		/*
-		Get the code parameter, which is only in the url if the user has granted  us access to their
-		Spotify account. This code parameter is used to generate an access token.
-		 */
-		String code = request.getParameter("code");
+//		/*
+//		Get the code parameter, which is only in the url if the user has granted  us access to their
+//		Spotify account. This code parameter is used to generate an access token.
+//		 */
+//		String code = request.getParameter("code");
 
 		try {
-			// Create a new SpotifyApi object.
-			final SpotifyApi api = SpotifyApi.builder()
-					.setClientId(clientId)
-					.setClientSecret(clientSecret)
-					.setRedirectUri(redirectURI)
-					.build();
-
+//			// Create a new SpotifyApi object.
+//			final SpotifyApi api = SpotifyApi.builder()
+//					.setClientId(clientId)
+//					.setClientSecret(clientSecret)
+//					.setRedirectUri(redirectURI)
+//					.build();
+//
 
 			JsonObject responseJsonObject = new JsonObject();
 
@@ -73,50 +74,52 @@ public class StatisticsServlet extends HttpServlet {
 			to ask the user for permission to use their Spotify account. If the code is present, then
 			we can use it to grab the user's top artists, songs and albums.
 			 */
-			if (code == null) {
-				/*
-				Use the SpotifyApi object to create a authorization uri request. We set the scope to
-				user-top-read so we can access the user's top artists, songs and albums.
-				 */
-				final AuthorizationCodeUriRequest authorizationCodeUriRequest = api.authorizationCodeUri()
-						.state("x4xkmn9pu3j6ukrs8n")
-						.scope("user-top-read")
-						.show_dialog(true)
-						.build();
-				final URI uri = authorizationCodeUriRequest.execute();
+//			if (code == null) {
+//				/*
+//				Use the SpotifyApi object to create a authorization uri request. We set the scope to
+//				user-top-read so we can access the user's top artists, songs and albums.
+//				 */
+//				final AuthorizationCodeUriRequest authorizationCodeUriRequest = api.authorizationCodeUri()
+//						.state("x4xkmn9pu3j6ukrs8n")
+//						.scope("user-top-read")
+//						.show_dialog(true)
+//						.build();
+//				final URI uri = authorizationCodeUriRequest.execute();
+//
+//				/*
+//				Add the user type as "new" (since we need their authorization) and pass back the uri
+//				so we can use it to redirect the user in the frontend to the authorization page.
+//				 */
+//				responseJsonObject.addProperty("user_type", "new");
+//				responseJsonObject.addProperty("uri", uri.toString());
+//			}
+//			else {
+			/*
+			Add the user type as "authorized" to let the frontend know we don't need to redirect
+			the user to the authorization page.
+			 */
+//			responseJsonObject.addProperty("user_type", "authorized");
 
-				/*
-				Add the user type as "new" (since we need their authorization) and pass back the uri
-				so we can use it to redirect the user in the frontend to the authorization page.
-				 */
-				responseJsonObject.addProperty("user_type", "new");
-				responseJsonObject.addProperty("uri", uri.toString());
-			}
-			else {
-				/*
-				Add the user type as "authorized" to let the frontend know we don't need to redirect
-				the user to the authorization page.
-				 */
-				responseJsonObject.addProperty("user_type", "authorized");
+//			// Use the code param to get an authorization and refresh token.
+//			final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
+//			final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+//
+//			// Set access and refresh token for the SpotifyApi object
+//			api.setAccessToken(authorizationCodeCredentials.getAccessToken());
+//			api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+			HttpSession session = request.getSession();
+			final SpotifyApi api = (SpotifyApi) session.getAttribute("api_object");
 
-				// Use the code param to get an authorization and refresh token.
-				final AuthorizationCodeRequest authorizationCodeRequest = api.authorizationCode(code).build();
-				final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+			// Call getTopArtists for each time period to get the top 50 artists in all three time ranges.
+			responseJsonObject.add("long_term_artists", getTopArtists("long_term", api));
+			responseJsonObject.add("medium_term_artists", getTopArtists("medium_term", api));
+			responseJsonObject.add("short_term_artists", getTopArtists("short_term", api));
 
-				// Set access and refresh token for the SpotifyApi object
-				api.setAccessToken(authorizationCodeCredentials.getAccessToken());
-				api.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-
-				// Call getTopArtists for each time period to get the top 50 artists in all three time ranges.
-				responseJsonObject.add("long_term_artists", getTopArtists("long_term", api));
-				responseJsonObject.add("medium_term_artists", getTopArtists("medium_term", api));
-				responseJsonObject.add("short_term_artists", getTopArtists("short_term", api));
-
-				// Call getTopTracks for each time period to get the top 50 tracks in all three time ranges.
-				responseJsonObject.add("long_term_tracks", getTopTracks("long_term", api));
-				responseJsonObject.add("medium_term_tracks", getTopTracks("medium_term", api));
-				responseJsonObject.add("short_term_tracks", getTopTracks("short_term", api));
-			}
+			// Call getTopTracks for each time period to get the top 50 tracks in all three time ranges.
+			responseJsonObject.add("long_term_tracks", getTopTracks("long_term", api));
+			responseJsonObject.add("medium_term_tracks", getTopTracks("medium_term", api));
+			responseJsonObject.add("short_term_tracks", getTopTracks("short_term", api));
+//			}
 
 			// Return the JsonObject to the front end.
 			out.write(responseJsonObject.toString());
