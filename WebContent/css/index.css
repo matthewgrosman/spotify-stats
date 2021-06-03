@@ -9,7 +9,10 @@
 .top-results ul {
     counter-reset: index;
     padding: 0;
+    width: 70%;
+    margin: auto;
     font-family : Montserrat;
+    justify-content: center;
 }
 
 /* List element */
@@ -17,7 +20,7 @@
     counter-increment: index;
     display: flex;
     align-items: center;
-    padding: 12px 0;
+    padding: 12px 70px;
     box-sizing: border-box;
 }
 
@@ -29,7 +32,7 @@
     text-align: right;
     font-weight: bold;
     min-width: 50px;
-    padding-right: 12px;
+    padding-right: 30px;
     font-variant-numeric: tabular-nums;
     align-self: flex-start;
     background-image: linear-gradient(to bottom, aquamarine, orangered);
@@ -37,6 +40,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
 
 
 /* Element separation */
@@ -57,12 +61,20 @@ nav {
     padding-bottom: 12px;
 }
 
+.content-type ul {
+    padding: 12px 132px;
+    margin: 0;
+    list-style: none;
+    display: inline;
+}
+
 nav .line {
     height: 2px;
     position: absolute;
     bottom: 0;
     margin: 10px 0 0 0;
-    background: #FF1847;
+    background: #1DB954
+;
 }
 
 nav .line-time {
@@ -70,7 +82,8 @@ nav .line-time {
     position: absolute;
     bottom: 0;
     margin: 10px 0 0 0;
-    background: #FF1847;
+    background: #1DB954
+;
 }
 
 nav ul {
