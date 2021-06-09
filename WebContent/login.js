@@ -11,7 +11,9 @@ function redirectUser(data) {
 }
 
 /**
- * Handles the button click on the login page.
+ * Handles the button click on the login page. The function makes a request to the
+ * backend to generate a redirect URI that asks the user to grant our website access
+ * to their Spotify artist and song information.
  */
 function authorizeUser() {
     $.ajax(

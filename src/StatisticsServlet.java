@@ -43,23 +43,25 @@ public class StatisticsServlet extends HttpServlet {
 		// Set the response type to JSON
 		response.setContentType("application/json");
 
+		// Get the content-type and time-range parameters
+		String content_type = request.getParameter("content-type");
+		String time_range = request.getParameter("time-range");
+
 		try {
 			JsonObject responseJsonObject = new JsonObject();
+			responseJsonObject.addProperty("content-type", content_type);
 
 			// Get the SpotifyApi object that was stored in the session in another servlet.
 			HttpSession session = request.getSession();
 			final SpotifyApi api = (SpotifyApi) session.getAttribute("api_object");
 
-			// Call getTopArtists for each time period to get the top 50 artists in all three time ranges.
-			responseJsonObject.add("long_term_artists", getTopArtists("long_term", api));
-			responseJsonObject.add("medium_term_artists", getTopArtists("medium_term", api));
-			responseJsonObject.add("short_term_artists", getTopArtists("short_term", api));
-
-			// Call getTopTracks for each time period to get the top 50 tracks in all three time ranges.
-			responseJsonObject.add("long_term_tracks", getTopTracks("long_term", api));
-			responseJsonObject.add("medium_term_tracks", getTopTracks("medium_term", api));
-			responseJsonObject.add("short_term_tracks", getTopTracks("short_term", api));
-//			}
+			// Make the call to either getTopArtists or getTopTracks and add the data to the return object
+			if (content_type.equals("Artists")) {
+				responseJsonObject.add("list", getTopArtists(formatTimeRange(time_range), api));
+			}
+			else {
+				responseJsonObject.add("list", getTopTracks(formatTimeRange(time_range), api));
+			}
 
 			// Return the JsonObject to the front end.
 			out.write(responseJsonObject.toString());
@@ -150,5 +152,25 @@ public class StatisticsServlet extends HttpServlet {
 		}
 
 		return tracks;
+	}
+
+	/**
+	 * Given a time range (either 'Short Term', 'Medium Term', or
+	 * 'Long Term'), format it into the form *range*_term to allow
+	 * for easy use in the SpotifyApi function call later in the code.
+	 *
+	 * @param time_range	String representing a time range.
+	 * @return				A formatted String as specified above.
+	 */
+	private String formatTimeRange(String time_range) {
+		if (time_range.equals("Short Term")) {
+			return "short_term";
+		}
+		else if (time_range.equals("Medium Term")) {
+			return "medium_term";
+		}
+		else {
+			return "long_term";
+		}
 	}
 }

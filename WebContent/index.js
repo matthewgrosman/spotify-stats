@@ -25,13 +25,8 @@ function handleResponse(data) {
  */
 function displayResults(json) {
     let top_results_div = jQuery("#top-results");
-
-    top_results_div.append(buildListItem("Artist", json["long_term_artists"]));
-    // top_results_div.append(buildTable("Artist", "Top Artists (Medium Term)", json["medium_term_artists"]));
-    // top_results_div.append(buildTable("Artist", "Top Artists (Short Term)", json["short_term_artists"]));
-    // top_results_div.append(buildTable("Track", "Top Tracks (Long Term)", json["long_term_tracks"]));
-    // top_results_div.append(buildTable("Track", "Top Tracks (Medium Term)", json["medium_term_tracks"]));
-    // top_results_div.append(buildTable("Track", "Top Tracks (Short Term)", json["short_term_tracks"]));
+    top_results_div.empty();
+    top_results_div.append(buildListItem(json["content-type"], json["list"]));
 }
 
 
@@ -45,7 +40,7 @@ function displayResults(json) {
 function buildListItem(category, data) {
     let list_item = "";
 
-    if (category === "Artist") {
+    if (category === "Artists") {
         for (let i = 0; i < data.length; i++)  {
             list_item += "<li>" + data[i]["artist_name"] + "</li>";
         }
@@ -73,7 +68,7 @@ Makes an HTTP request to the backend Java servlet. Upon success, the returned JS
 to the function handleResponse. Before the call is made, we check to see if we have an access token
 in the url, which is denoted through the "code" parameter. We pass this through in the url.
 */
-let ajaxURL = "statisticsServlet";
+let ajaxURL = "statisticsServlet?content-type='Artists'&time-range='Short Term'";
 
 jQuery.ajax({
     // Set the return type to JSON.
@@ -85,3 +80,8 @@ jQuery.ajax({
     // If successful, call the handleResponse function, and pass as a parameter the data returned by the call.
     success: (resultData) => handleResponse(resultData)
 });
+
+
+function testing() {
+    console.log("hi");
+}
