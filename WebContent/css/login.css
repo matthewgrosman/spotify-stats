@@ -4,16 +4,20 @@
     padding: 10px;
     font-family: Montserrat;
     font-size: 150%;
-    font-weight: bold;
+    text-align: center;
 }
 
+p {
+    text-align: left;
+    font-size: 80%;
+}
 
 button {
     background-color: #1DB954;
     border:0;
     color: white;
     padding:0.6em 2em;
-    border-radius: 8px;
+    border-radius: 18px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -22,6 +26,12 @@ button {
     margin:1em;
     text-transform: uppercase;
     font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color : #16df5c;
+    opacity: 1;
 }
 
 body {
@@ -29,4 +39,27 @@ body {
     font-family: 'Montserrat', sans-serif;
     /* color: white; */
     -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+    width: 100%;
+    height:100%;
+}
+
+body {
+    background: linear-gradient(-45deg, #c8e4d2, #d2d0dd, #eccaca, #c7a585);
+    background-size: 400% 400%;
+    animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }

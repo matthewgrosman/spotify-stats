@@ -68,7 +68,7 @@ Makes an HTTP request to the backend Java servlet. Upon success, the returned JS
 to the function handleResponse. Before the call is made, we check to see if we have an access token
 in the url, which is denoted through the "code" parameter. We pass this through in the url.
 */
-let ajaxURL = "statisticsServlet?content-type='Artists'&time-range='Short Term'";
+let ajaxURL = "statisticsServlet?content-type=Artists&time-range=Short Term";
 
 jQuery.ajax({
     // Set the return type to JSON.
