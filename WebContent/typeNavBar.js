@@ -72,6 +72,14 @@ nav.find('ul li a').click(function(e) {
 
         pos = position.left;
         wid = width;
+
+        let t = document.getElementsByClassName("active");
+        console.log(t.length);
+        for (let i = 0; i < t.length; i++) {
+            let regex = new RegExp('>(.+)<');
+            console.log(regex.exec(t[i].innerHTML)[1]);
+        }
+        console.log(_this[0].innerHTML);
     }
 });
 
@@ -116,5 +124,13 @@ nav2.find('ul li a').click(function(e) {
 
         pos2 = position.left;
         wid2 = width;
+
+        let t = document.getElementsByClassName("active");
+        console.log(t.length);
+        for (let i = 0; i < t.length; i++) {
+            let regex = new RegExp('>(.+)<');
+            console.log(regex.exec(t[i].innerHTML)[1]);
+        }
+        console.log(_this[0].innerHTML);
     }
 });

@@ -98,6 +98,7 @@ nav ul li {
     opacity: .4;
     transition: all 0.4s ease;
     display: inline-block;
+    text-transform: uppercase;
 }
 
 nav ul li:hover {
@@ -107,6 +108,7 @@ nav ul li:hover {
 nav ul li.active {
     opacity: 1;
 }
+
 
 nav ul li:last-child {
     margin-right: 0;
