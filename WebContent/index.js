@@ -66,8 +66,9 @@ function buildListItem(category, data) {
 
 /*
 Makes an HTTP request to the backend Java servlet. Upon success, the returned JSON data is sent
-to the function handleResponse. Before the call is made, we check to see if we have an access token
-in the url, which is denoted through the "code" parameter. We pass this through in the url.
+to the function handleResponse. We supply the parameters Artists and Short Term as these are the
+default selections when the website is first visited by the user, so we sent this request to display
+the results.
 */
 let ajaxURL = "statisticsServlet?content-type=Artists&time-range=Short Term";
 
