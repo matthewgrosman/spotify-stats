@@ -17,10 +17,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.specification.Artist;
-import com.wrapper.spotify.model_objects.specification.ArtistSimplified;
-import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.Track;
+import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 import org.apache.hc.core5.http.ParseException;
@@ -109,6 +106,7 @@ public class StatisticsServlet extends HttpServlet {
 		for (Artist a : artistPaging.getItems()) {
 			JsonObject artistJsonObject = new JsonObject();
 			artistJsonObject.addProperty("artist_name", a.getName());
+			artistJsonObject.addProperty("artist_image", a.getImages()[0].getUrl());
 			artists.add(artistJsonObject);
 		}
 

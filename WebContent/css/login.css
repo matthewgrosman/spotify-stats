@@ -1,6 +1,6 @@
 .info-panel {
     margin: auto;
-    width: 40%;
+    width: 30%;
     padding: 10px;
     font-family: Montserrat;
     font-size: 150%;
@@ -39,6 +39,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     /* color: white; */
     -webkit-font-smoothing: antialiased;
+    width : 100%;
 }
 
 html, body {

@@ -33,16 +33,17 @@ function displayResults(json) {
 /**
  * Builds a list item to add to the top artists or top tracks list.
  *
- * @param category
- * @param data
- * @returns {string}
+ * @param category      The category of data the user is requesting (either Artists or Tracks)
+ * @param data          The returned data from the backend (either the top tracks or artists)
+ * @returns {string}    A string that contains HTML code of a fully built list.
  */
 function buildListItem(category, data) {
     let list_item = "";
 
     if (category === "Artists") {
         for (let i = 0; i < data.length; i++)  {
-            list_item += "<li>" + data[i]["artist_name"] + "</li>";
+            list_item += "<li><img src='" + data[i]["artist_image"] + "' alt='Artist Image'>" + data[i]["artist_name"] + "</li>";
+            console.log("Artist: " + data[i]["artist_name"]);
         }
     }
     else {
@@ -80,8 +81,3 @@ jQuery.ajax({
     // If successful, call the handleResponse function, and pass as a parameter the data returned by the call.
     success: (resultData) => handleResponse(resultData)
 });
-
-
-function testing() {
-    console.log("hi");
-}
