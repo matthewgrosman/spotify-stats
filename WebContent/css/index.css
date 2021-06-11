@@ -21,9 +21,9 @@
     counter-increment: index;
     display: flex;
     align-items: center;
-    padding: 3% 15%;
+    padding: 1% 20%;
     box-sizing: border-box;
-    font-size: calc(.6vw + .6vh + .6vmin);
+    font-size: calc(.7vw + .7vh + .7vmin);
     word-wrap: break-word;
 }
 
@@ -70,7 +70,7 @@ nav {
 
 nav .line {
     height: 2px;
-    position: relative;
+    position: absolute;
     bottom: 0;
     margin: 1% 0 0 0;
     background: #1DB954
@@ -79,7 +79,7 @@ nav .line {
 
 nav .line-time {
     height: 2px;
-    position: relative;
+    position: absolute;
     bottom: 0;
     margin: 1% 0 0 0;
     background: #1DB954
