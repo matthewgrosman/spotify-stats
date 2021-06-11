@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     width: 50%;
-    padding-left:20%;
+    position: relative;
 }
 
 /* List */
@@ -21,14 +21,14 @@
     counter-increment: index;
     display: flex;
     align-items: center;
-    padding: 19px 70px;
+    padding: 3% 15%;
     box-sizing: border-box;
     font-size: calc(.6vw + .6vh + .6vmin);
     word-wrap: break-word;
 }
 
 .top-results img {
-    margin-right: 15px;
+    margin-right: 3%;
     width: 100px;
     height: 100px;
     border-radius: 30%;
@@ -40,8 +40,8 @@
     font-size: 3.0rem;
     text-align: right;
     font-weight: bold;
-    min-width: 80px;
-    padding-right: 70px;
+    min-width: 20%;
+    padding-right: 10%;
     font-variant-numeric: tabular-nums;
     background-image: linear-gradient(to bottom, aquamarine, orangered);
     background-attachment: fixed;
@@ -66,43 +66,38 @@ nav {
     padding-bottom: 12px;
 }
 
-.content-type ul {
-    padding: 12px 210px;
-    margin: 0;
-    list-style: none;
-    display: inline;
-}
+
 
 nav .line {
     height: 2px;
-    position: absolute;
+    position: relative;
     bottom: 0;
-    margin: 10px 0 0 0;
+    margin: 1% 0 0 0;
     background: #1DB954
 ;
 }
 
 nav .line-time {
     height: 2px;
-    position: absolute;
+    position: relative;
     bottom: 0;
-    margin: 10px 0 0 0;
+    margin: 1% 0 0 0;
     background: #1DB954
 ;
 }
 
 nav ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
+    list-style:none;
+    margin:0;
+    padding:0;
+    text-align:center;
 }
 
 nav ul li {
-    margin: 0 40px 0 0;
+    margin: 0 5% 0 0;
     opacity: .4;
     transition: all 0.4s ease;
-    display: inline-block;
+    display: inline;
     text-transform: uppercase;
 }
 
@@ -123,10 +118,10 @@ nav ul li a {
     text-decoration: none;
     /* color: #fff; */
     text-transform: uppercase;
-    display: block;
+    display: inline-block;
     font-weight: 600;
     letter-spacing: .2em;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 body {
@@ -134,4 +129,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    position: relative;
+    top: 110%;
+    left: 0%;
+    width: 99%;
+    height: 100%;
 }
