@@ -24,11 +24,16 @@ function handleResponse(data) {
  *              in JSON.
  */
 function displayResults(json) {
+    // Display the user's name
+    let greet_user = jQuery("#user-greet");
+    greet_user.empty();
+    greet_user.append(json["user-name"] + "'s Stats");
+
+    // Build the statistics list
     let top_results_div = jQuery("#top-results");
     top_results_div.empty();
     top_results_div.append(buildListItem(json["content-type"], json["list"]));
 }
-
 
 /**
  * Builds a list item to add to the top artists or top tracks list.
@@ -42,12 +47,14 @@ function buildListItem(category, data) {
 
     if (category === "Artists") {
         for (let i = 0; i < data.length; i++)  {
-            list_item += "<li class='artist'><img src='" + data[i]["artist_image"] + "' alt='Artist Image'>" + data[i]["artist_name"] + "</li>";
+            list_item += "<li class='artist'><img src='" + data[i]["artist_image"]
+                + "' alt='Artist Image'>" + data[i]["artist_name"] + "</li>";
         }
     }
     else {
         for (let i = 0; i < data.length; i++) {
-            list_item += ("<li class='track'><img src='" + data[i]["album_image"] + "' alt='Artist Image'>" + data[i]["track_name"] + "<br>by ");
+            list_item += ("<li class='track'><img src='" + data[i]["album_image"]
+                + "' alt='Artist Image'>" + data[i]["track_name"] + "<br>by ");
 
             for (let j = 0; j < data[i]["track_artists"].length; j++) {
                 list_item += data[i]["track_artists"][j]["artist"];

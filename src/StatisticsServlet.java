@@ -20,6 +20,7 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.specification.*;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopArtistsRequest;
 import com.wrapper.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
+import com.wrapper.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 import org.apache.hc.core5.http.ParseException;
 
 @WebServlet(name="StatisticsServlet", urlPatterns="/statisticsServlet")
@@ -51,6 +52,9 @@ public class StatisticsServlet extends HttpServlet {
 			// Get the SpotifyApi object that was stored in the session in another servlet.
 			HttpSession session = request.getSession();
 			final SpotifyApi api = (SpotifyApi) session.getAttribute("api_object");
+
+			// Make a call to the getUserName function and add the result to the return object.
+			responseJsonObject.addProperty("user-name", getUserName(api));
 
 			// Make the call to either getTopArtists or getTopTracks and add the data to the return object
 			if (content_type.equals("Artists")) {
@@ -85,6 +89,20 @@ public class StatisticsServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		doGet(request, response);
+	}
+
+	/**
+	 * Returns the current user's name.
+	 *
+	 * @param api	The current SpotifyApi object we are using for this session.
+	 * @return
+	 */
+	private String getUserName(SpotifyApi api) throws IOException, ParseException, SpotifyWebApiException {
+		GetCurrentUsersProfileRequest getCurrentUsersProfileRequest = api.getCurrentUsersProfile()
+				.build();
+
+		User user = getCurrentUsersProfileRequest.execute();
+		return user.getDisplayName();
 	}
 
 	/**
