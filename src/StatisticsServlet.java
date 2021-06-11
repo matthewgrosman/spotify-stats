@@ -145,7 +145,7 @@ public class StatisticsServlet extends HttpServlet {
 			}
 			trackJsonObject.add("track_artists", track_artists);
 
-			trackJsonObject.addProperty("track_album", t.getAlbum().getName());
+			trackJsonObject.addProperty("album_image", t.getAlbum().getImages()[0].getUrl());
 			tracks.add(trackJsonObject);
 		}
 

@@ -2,7 +2,7 @@
     margin: 0 auto;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 90%;
     position: relative;
 }
 
@@ -17,13 +17,23 @@
 }
 
 /* List element */
-.top-results li {
+.track {
     counter-increment: index;
     display: flex;
     align-items: center;
-    padding: 1% 20%;
+    padding: 1% 23%;
     box-sizing: border-box;
-    font-size: calc(.7vw + .7vh + .7vmin);
+    font-size: calc(.6vw + .6vh + .6vmin);
+    word-wrap: break-word;
+}
+
+.artist {
+    counter-increment: index;
+    display: flex;
+    align-items: center;
+    padding: 1% 35%;
+    box-sizing: border-box;
+    font-size: calc(.6vw + .6vh + .6vmin);
     word-wrap: break-word;
 }
 
@@ -41,7 +51,7 @@
     text-align: right;
     font-weight: bold;
     min-width: 20%;
-    padding-right: 10%;
+    padding-right: 7%;
     font-variant-numeric: tabular-nums;
     background-image: linear-gradient(to bottom, aquamarine, orangered);
     background-attachment: fixed;

@@ -42,13 +42,12 @@ function buildListItem(category, data) {
 
     if (category === "Artists") {
         for (let i = 0; i < data.length; i++)  {
-            list_item += "<li><img src='" + data[i]["artist_image"] + "' alt='Artist Image'>" + data[i]["artist_name"] + "</li>";
-            console.log("Artist: " + data[i]["artist_name"]);
+            list_item += "<li class='artist'><img src='" + data[i]["artist_image"] + "' alt='Artist Image'>" + data[i]["artist_name"] + "</li>";
         }
     }
     else {
         for (let i = 0; i < data.length; i++) {
-            list_item += ("<li>" + data[i]["track_name"] + " by ");
+            list_item += ("<li class='track'><img src='" + data[i]["album_image"] + "' alt='Artist Image'>" + data[i]["track_name"] + "<br>by ");
 
             for (let j = 0; j < data[i]["track_artists"].length; j++) {
                 list_item += data[i]["track_artists"][j]["artist"];
