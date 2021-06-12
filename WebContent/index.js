@@ -33,6 +33,18 @@ function displayResults(json) {
     let top_results_div = jQuery("#top-results");
     top_results_div.empty();
     top_results_div.append(buildListItem(json["content-type"], json["list"]));
+
+    console.log("hi");
+
+    if (json.hasOwnProperty("images_list")) {
+        console.log("The json data 1");
+        console.log(json);
+    }
+
+    if (json["images_list"] != null) {
+        console.log("The json data 2");
+        console.log(json);
+    }
 }
 
 /**
@@ -76,7 +88,7 @@ to the function handleResponse. We supply the parameters Artists and Short Term 
 default selections when the website is first visited by the user, so we sent this request to display
 the results.
 */
-let ajaxURL = "statisticsServlet?content-type=Artists&time-range=Short Term";
+let ajaxURL = "statisticsServlet?content-type=Artists&time-range=Short Term&get-images=needed";
 
 jQuery.ajax({
     // Set the return type to JSON.

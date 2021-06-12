@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -41,9 +43,10 @@ public class StatisticsServlet extends HttpServlet {
 		// Set the response type to JSON
 		response.setContentType("application/json");
 
-		// Get the content-type and time-range parameters
+		// Get the content-type, time-range and get-images parameters
 		String content_type = request.getParameter("content-type");
 		String time_range = request.getParameter("time-range");
+		String need_images = request.getParameter("get-images");
 
 		try {
 			JsonObject responseJsonObject = new JsonObject();
@@ -55,6 +58,11 @@ public class StatisticsServlet extends HttpServlet {
 
 			// Make a call to the getUserName function and add the result to the return object.
 			responseJsonObject.addProperty("user-name", getUserName(api));
+
+			// If we need images to display for our front-end, grab them
+			if (need_images != null) {
+				responseJsonObject.add("images_list", getDisplayImages(api));
+			}
 
 			// Make the call to either getTopArtists or getTopTracks and add the data to the return object
 			if (content_type.equals("Artists")) {
@@ -168,6 +176,59 @@ public class StatisticsServlet extends HttpServlet {
 		}
 
 		return tracks;
+	}
+
+	/**
+	 * Gets several images to display around the front-end. These images are from the user's
+	 * top artists or top tracks.
+	 *
+	 * @param api	The current SpotifyApi object we are using for this session
+	 * @return		A JsonArray containing the URLs to images we will display in the front end.
+	 */
+	private JsonArray getDisplayImages(SpotifyApi api) throws IOException, ParseException, SpotifyWebApiException {
+		// Get 9 artist images and 6 album images (I explain the .limit(25) later on)
+		GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
+				.limit(9)
+				.time_range("medium_term")
+				.build();
+
+		GetUsersTopTracksRequest getUsersTopTracksRequest = api.getUsersTopTracks()
+				.limit(25)
+				.time_range("long_term")
+				.build();
+
+		JsonArray images = new JsonArray();
+		Set<String> used_urls = new HashSet<>();
+
+		final Paging<Artist> artistPaging = getUsersTopArtistsRequest.execute();
+		for (Artist a : artistPaging.getItems()) {
+			JsonObject artistImage = new JsonObject();
+			artistImage.addProperty("image", a.getImages()[0].getUrl());
+			images.add(artistImage);
+		}
+
+		final Paging<Track> trackPaging = getUsersTopTracksRequest.execute();
+		for (Track t : trackPaging.getItems()) {
+			/*
+			The same album artwork can appear several times if the user listens to a lot of
+			tracks off of the same album, so I traverse the 25 returned tracks until we either
+			have 6 unique covers or have ran out of tracks to traverse. I keep track of which
+			covers have been seen by maintaining a HashSet and checking at each iteration if
+			the current url is in the HashSet.
+			 */
+			String current_url = t.getAlbum().getImages()[0].getUrl();
+			if (!used_urls.contains(current_url)) {
+				JsonObject trackImage = new JsonObject();
+				trackImage.addProperty("image", current_url);
+				images.add(trackImage);
+				used_urls.add(current_url);
+				if (used_urls.size() == 6) {
+					return images;
+				}
+			}
+		}
+
+		return images;
 	}
 
 	/**
