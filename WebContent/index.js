@@ -34,16 +34,8 @@ function displayResults(json) {
     top_results_div.empty();
     top_results_div.append(buildListItem(json["content-type"], json["list"]));
 
-    console.log("hi");
-
     if (json.hasOwnProperty("images_list")) {
-        console.log("The json data 1");
-        console.log(json);
-    }
-
-    if (json["images_list"] != null) {
-        console.log("The json data 2");
-        console.log(json);
+        buildImageDivs(json)
     }
 }
 
@@ -81,6 +73,49 @@ function buildListItem(category, data) {
     return list_item
 }
 
+function buildImageDivs(data) {
+    let leaf = jQuery("#leaf")
+    let img_list = data["images_list"];
+
+    for (let i = 0; i < img_list.length; i++) {
+        leaf.append(
+            "<div " + getImageClass(i) + "><img src='"
+            + img_list[i]["image"] + "' " + getImageHeightWidth(i) + "></div>"
+        );
+    }
+}
+
+/**
+ * Returns the class name which will determine how large the border-radius is for
+ * the current image. There are 4 types (ranging from no radius to big radius), so
+ * we use modulus 4 on the current index to grab the appropriate one and make sure
+ * that the images are varied in their selection of border-radius.
+ *
+ * @param index     The current index in the image list we are iterating through.
+ * @returns {*}     The class name which determines the border-radius.
+ */
+function getImageClass(index) {
+    let definitions = {0: "no-rad", 1:"low-rad", 2:"mid-rad", 3:"big-rad"};
+    return definitions[index % 4];
+}
+
+/**
+ * Returns the height and width of the image. There are 5 possible sizes, so
+ * we use modulus 5 on the current index to grab the appropriate one and make sure
+ * that the images are varied in their selection of size.
+ *
+ * @param index     The current index in the image list we are iterating through.
+ * @returns {*}     The height and width of the image.
+ */
+function getImageHeightWidth(index) {
+    let definitions = {
+        0: "height=75px width=75px",
+        1: "height=115px width=115px",
+        2: "height=135px width=135px",
+        3: "height=150px width=150px",
+        4: "height=175px width=175px"};
+    return definitions[index % 5];
+}
 
 /*
 Makes an HTTP request to the backend Java servlet. Upon success, the returned JSON data is sent

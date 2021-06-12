@@ -186,9 +186,9 @@ public class StatisticsServlet extends HttpServlet {
 	 * @return		A JsonArray containing the URLs to images we will display in the front end.
 	 */
 	private JsonArray getDisplayImages(SpotifyApi api) throws IOException, ParseException, SpotifyWebApiException {
-		// Get 9 artist images and 6 album images (I explain the .limit(25) later on)
+		// Get 13 artist images and 8 album images (I explain the .limit(25) later on)
 		GetUsersTopArtistsRequest getUsersTopArtistsRequest = api.getUsersTopArtists()
-				.limit(9)
+				.limit(13)
 				.time_range("medium_term")
 				.build();
 
@@ -222,7 +222,7 @@ public class StatisticsServlet extends HttpServlet {
 				trackImage.addProperty("image", current_url);
 				images.add(trackImage);
 				used_urls.add(current_url);
-				if (used_urls.size() == 6) {
+				if (used_urls.size() == 8) {
 					return images;
 				}
 			}
