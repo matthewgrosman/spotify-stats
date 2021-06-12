@@ -2,7 +2,7 @@
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: .2em;
-    font-size: 2.0rem;
+    font-size: 1.6rem;
     font-family : Montserrat;
     text-align: center;
 }
@@ -13,7 +13,12 @@
     align-items: center;
     width: 90%;
     position: relative;
+    background-color: white;
+    background: linear-gradient(to bottom, white 0, white 100%) no-repeat;
+    background-size: calc(70%); /* Reduce height of background by 100px and width by 100px*/
+    background-position: center;
 }
+
 
 /* List */
 .top-results ul {
@@ -48,15 +53,15 @@
 
 .top-results img {
     margin-right: 3%;
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     border-radius: 30%;
 }
 
 /* Element counter */
 .top-results li::before {
     content: counters(index, ".", decimal-leading-zero);
-    font-size: 3.0rem;
+    font-size: 2.5rem;
     text-align: right;
     font-weight: bold;
     min-width: 20%;
@@ -70,7 +75,7 @@
 
 /* Element separation */
 .top-results li + li {
-    border-top: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px;
 }
 
 body {
@@ -85,15 +90,12 @@ nav {
     padding-bottom: 12px;
 }
 
-
-
 nav .line {
     height: 2px;
     position: absolute;
     bottom: 0;
     margin: 1% 0 0 0;
-    background: #1DB954
-;
+    background: #1DB954;
 }
 
 nav .line-time {
@@ -140,7 +142,7 @@ nav ul li a {
     display: inline-block;
     font-weight: 600;
     letter-spacing: .2em;
-    font-size: 1.4rem;
+    font-size: 1.0rem;
 }
 
 body {
@@ -153,4 +155,19 @@ body {
     left: 0%;
     width: 99%;
     height: 100%;
+    background: linear-gradient(-45deg, #c8e4d2, #d2d0dd, #eccaca, #c7a585);
+    background-size: 600% 600%;
+    animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
