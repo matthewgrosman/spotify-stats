@@ -1,4 +1,4 @@
-# Spotify Stats
+# Spotifstats
 
 [spotifstats.com](https://www.spotifstats.com)
 
