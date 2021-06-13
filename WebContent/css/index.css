@@ -229,7 +229,7 @@ body {
     animation:fadeIn 3s, moveleft 45s linear infinite ;
 }
 .leaf div:nth-child(5){
-    left:88%;
+    left:86%;
     animation:fall 45s linear infinite;
     animation-delay:-5s;
 }
@@ -297,7 +297,7 @@ body {
 }
 .leaf div:nth-child(18){
     left:90%;
-    animation:fall 50s linear infinite ;
+    animation:fall 80s linear infinite ;
     animation-delay:-5s;
 }
 .leaf div:nth-child(19){
