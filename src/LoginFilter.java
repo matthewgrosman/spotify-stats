@@ -64,7 +64,9 @@ public class LoginFilter implements Filter {
 
         // If this url needs a logged-in user to be accessed, check if user is logged in.
         if (httpRequest.getSession().getAttribute("user_status") == null) {
-            httpResponse.sendRedirect("login.html");
+            String url = "https://" + httpRequest.getServerName()
+                    + httpRequest.getContextPath() + "/login.html";
+            httpResponse.sendRedirect(url);
         }
         else {
             chain.doFilter(request, response);
