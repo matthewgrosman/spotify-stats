@@ -1,6 +1,6 @@
 # Spotify Stats
 
-spotifstats.com
+[spotifstats.com](spotifstats.com)
 
 A website that shows your top artists, songs and albums from your Spotify listening history.
 
