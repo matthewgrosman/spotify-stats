@@ -276,8 +276,8 @@ body {
     animation-delay:-5s;
 }
 .leaf div:nth-child(14){
-    left:91%;
-    animation:climb 35s linear infinite ;
+    left:93%;
+    animation:fall 56s linear infinite ;
     animation-delay:-5s;
 }
 .leaf div:nth-child(15){
