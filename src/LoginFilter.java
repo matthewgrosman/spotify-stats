@@ -64,7 +64,7 @@ public class LoginFilter implements Filter {
 
         // If this url needs a logged-in user to be accessed, check if user is logged in.
         if (httpRequest.getSession().getAttribute("user_status") == null) {
-            httpResponse.sendRedirect("https://spotifstats.com/login.html");
+            httpResponse.sendRedirect("login.html");
         }
         else {
             chain.doFilter(request, response);
