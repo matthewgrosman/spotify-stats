@@ -29,9 +29,7 @@ public class BuildAuthorizeUriServlet extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final String clientId = "649c589d7ba94443ae40c6bc10025966";
-        final String clientSecret = "48c7050d60a646f89663acfd14e208b6";
-        final URI redirectURI = SpotifyHttpManager.makeUri( "http://localhost:8080/spotify-stats/verify.html");
+        final URI redirectURI = SpotifyHttpManager.makeUri(SpotifyApiConstants.REDIRECT_URI);
 
         // Create a PrintWriter to write the response back to the front-end
         PrintWriter out = response.getWriter();
@@ -42,8 +40,8 @@ public class BuildAuthorizeUriServlet extends HttpServlet {
         try {
             // Create a new SpotifyApi object.
             final SpotifyApi api = SpotifyApi.builder()
-                    .setClientId(clientId)
-                    .setClientSecret(clientSecret)
+                    .setClientId(SpotifyApiConstants.CLIENT_ID)
+                    .setClientSecret(SpotifyApiConstants.CLIENT_SECRET)
                     .setRedirectUri(redirectURI)
                     .build();
 
