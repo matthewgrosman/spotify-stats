@@ -188,69 +188,75 @@ body {
 }
 
 .no-rad img {
-    border-radius: 0%;
+    border-radius: 80%;
+    opacity: 98%;
 }
 
 .low-rad img {
-    border-radius: 20%;
+    border-radius: 80%;
+    opacity: 97%;
 }
 
 .mid-rad img {
-    border-radius: 50%;
+    border-radius: 80%;
+    opacity: 99%;
 }
 
 .big-rad img {
     border-radius: 80%;
+    opacity: 99%;
 }
 
 .leaf div:nth-child(1){
     left:1%;
-    animation:fall 40s linear infinite ;
+    top: 50%;
+    animation:fall 70s linear infinite ;
     animation-delay:-2s;
 }
 .leaf div:nth-child(2){
     left:3%;
-    animation:fall 26s linear infinite ;
+    animation:fall 50s linear infinite ;
     animation-delay:-3s;
 }
 .leaf div:nth-child(3){
     left:5%;
-    animation:climb 33s linear infinite ;
+    animation:climb 53s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(4){
-    left:99%;
-    animation:moveleft 30s linear infinite ;
-    animation-delay:-5s;
+    left:98%;
+    bottom: 70%;
+    animation:fadeIn 3s, moveleft 45s linear infinite ;
 }
 .leaf div:nth-child(5){
     left:88%;
-    animation:fall 39s linear infinite ;
+    animation:fall 45s linear infinite;
     animation-delay:-5s;
 }
 .leaf div:nth-child(6){
     left:94%;
-    animation:climb 21s linear infinite ;
+    animation:climb 62s linear infinite ;
     animation-delay:-10s;
 }
 .leaf div:nth-child(7){
-    left:2%;
-    animation:moveright 28s linear infinite ;
+    left:0%;
+    bottom: 80%;
+    animation:fadeIn 3s, moveright 51s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(8){
     left:92%;
-    animation:moveleft 45s linear infinite ;
+    animation:fadeIn 3s, moveleft 40s linear infinite ;
     animation-delay:-5s;
 }
 .leaf div:nth-child(9){
     left:94%;
-    animation:moveleft 34s linear infinite ;
-    animation-delay:-10s;
+    bottom: 20%;
+    animation:fadeIn 3s, moveleft 35s linear infinite ;
 }
 .leaf div:nth-child(10){
-    left:7%;
-    animation:moveright 38s linear infinite ;
+    left:0%;
+    animation:fadeIn 3s, moveright 49s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(11){
@@ -260,16 +266,17 @@ body {
 }
 .leaf div:nth-child(12){
     left:8%;
-    animation:fall 28s linear infinite ;
+    animation:fall 62s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(13){
-    left:6%;
-    animation:climb 21s linear infinite ;
+    left:0%;
+    bottom: 60%;
+    animation:fadeIn 3s, moveright 42s linear infinite ;
     animation-delay:-5s;
 }
 .leaf div:nth-child(14){
-    left:99%;
+    left:91%;
     animation:climb 35s linear infinite ;
     animation-delay:-5s;
 }
@@ -280,12 +287,12 @@ body {
 }
 .leaf div:nth-child(16){
     left:87%;
-    animation:moveleft 40s linear infinite ;
-    animation-delay:-10s;
+    bottom: 30%;
+    animation:fadeIn 3s, moveleft 30s linear infinite ;
 }
 .leaf div:nth-child(17){
     left:8%;
-    animation:moveright 42s linear infinite ;
+    animation:fadeIn 3s, moveright 42s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(18){
@@ -300,7 +307,7 @@ body {
 }
 .leaf div:nth-child(20){
     left:3%;
-    animation:climb 20s linear infinite ;
+    animation:climb 38s linear infinite ;
     animation-delay:-4s;
 }
 .leaf div:nth-child(21){
@@ -368,21 +375,26 @@ body {
 }
 
 @keyframes moveright {
-     from {
-         margin-left: -30%;
-     }
+    from {
+        margin-left: -20%;
+    }
 
-     to {
-         margin-left: 100%;
-     }
- }
+    to {
+        margin-left: 100%;
+    }
+}
 
 @keyframes moveleft {
     to {
-        margin-left: -30%;
+        margin-left: -200%;
     }
 
     from {
-        margin-left: 100%;
+        margin-left: 100% ;
     }
+}
+
+@keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
 }

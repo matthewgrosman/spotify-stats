@@ -73,13 +73,17 @@ function buildListItem(category, data) {
     return list_item
 }
 
+/**
+ *
+ * @param data
+ */
 function buildImageDivs(data) {
     let leaf = jQuery("#leaf")
     let img_list = data["images_list"];
 
     for (let i = 0; i < img_list.length; i++) {
         leaf.append(
-            "<div " + getImageClass(i) + "><img src='"
+            "<div class='" + getImageClass(i) + "'><img src='"
             + img_list[i]["image"] + "' " + getImageHeightWidth(i) + "></div>"
         );
     }
@@ -109,11 +113,11 @@ function getImageClass(index) {
  */
 function getImageHeightWidth(index) {
     let definitions = {
-        0: "height=75px width=75px",
-        1: "height=115px width=115px",
-        2: "height=135px width=135px",
-        3: "height=150px width=150px",
-        4: "height=175px width=175px"};
+        0: "height=150px width=150px",
+        1: "height=175px width=175px",
+        2: "height=200px width=200px",
+        3: "height=220px width=220px",
+        4: "height=160px width=160px"};
     return definitions[index % 5];
 }
 
