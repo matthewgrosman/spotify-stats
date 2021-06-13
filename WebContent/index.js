@@ -74,8 +74,9 @@ function buildListItem(category, data) {
 }
 
 /**
+ * Builds the div that displays the floating background images on the front-end
  *
- * @param data
+ * @param data  The JSON data that contains the image URLs to be displayed.
  */
 function buildImageDivs(data) {
     let leaf = jQuery("#leaf")
@@ -90,10 +91,9 @@ function buildImageDivs(data) {
 }
 
 /**
- * Returns the class name which will determine how large the border-radius is for
- * the current image. There are 4 types (ranging from no radius to big radius), so
- * we use modulus 4 on the current index to grab the appropriate one and make sure
- * that the images are varied in their selection of border-radius.
+ * Returns the class name which will determine how the opacity and border-radius for
+ * the current image. There are 4 types , so we use modulus 4 on the current index to
+ * grab the appropriate one and make sure that the images are varied in their appearance.
  *
  * @param index     The current index in the image list we are iterating through.
  * @returns {*}     The class name which determines the border-radius.
