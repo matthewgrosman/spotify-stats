@@ -43,8 +43,8 @@ public class AuthorizeUserServlet extends HttpServlet {
         try {
             // Create a new SpotifyApi object.
             final SpotifyApi api = SpotifyApi.builder()
-                    .setClientId(SpotifyApiConstants.CLIENT_ID)
-                    .setClientSecret(SpotifyApiConstants.CLIENT_SECRET)
+                    .setClientId(System.getenv("CLIENT_ID"))
+                    .setClientSecret(System.getenv("CLIENT_SECRET"))
                     .setRedirectUri(redirectURI)
                     .build();
 
