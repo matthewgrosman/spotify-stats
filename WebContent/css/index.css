@@ -296,7 +296,7 @@ body {
     animation-delay:-4s;
 }
 .leaf div:nth-child(18){
-    left:10%;
+    left:90%;
     animation:fall 50s linear infinite ;
     animation-delay:-5s;
 }
