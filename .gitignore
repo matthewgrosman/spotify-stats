@@ -157,6 +157,6 @@ buildNumber.properties
 .idea
 
 # Keys for SpotifyApi
-SpotifyApiConstants
+SpotifyApiConstants.java
 
 # End of https://www.gitignore.io/api/java,maven,eclipse,java-web,intellij
