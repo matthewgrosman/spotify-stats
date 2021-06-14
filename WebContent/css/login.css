@@ -53,6 +53,18 @@ body {
     animation: gradient 8s ease infinite;
 }
 
+.info-panel img {
+    height: 40px;
+    width: 40px;
+    opacity: 80%;
+    transition: all .3s ease-in-out;
+}
+
+.info-panel img:hover {
+    opacity: 95%;
+    transition: all .3s ease-in-out;
+}
+
 @keyframes gradient {
     0% {
         background-position: 0% 50%;
