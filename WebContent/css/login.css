@@ -56,13 +56,11 @@ body {
 .info-panel img {
     height: 40px;
     width: 40px;
-    opacity: 80%;
-    transition: all .3s ease-in-out;
+    opacity: 70%;
 }
 
 .info-panel img:hover {
     opacity: 95%;
-    transition: all .3s ease-in-out;
 }
 
 @keyframes gradient {
