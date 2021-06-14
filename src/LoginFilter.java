@@ -35,6 +35,9 @@ public class LoginFilter implements Filter {
         allowed.add("authorize-user");
         allowed.add("verify.html");
         allowed.add("verify.js");
+
+        // Github Logo image
+        allowed.add("github-logo.png");
     }
 
     /**
