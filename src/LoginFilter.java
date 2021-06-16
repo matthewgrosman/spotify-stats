@@ -38,6 +38,9 @@ public class LoginFilter implements Filter {
 
         // Github Logo image
         allowed.add("github-logo.png");
+
+        // Favicon
+        allowed.add("favicon.ico");
     }
 
     /**
