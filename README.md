@@ -14,8 +14,8 @@ the [Java Spotify API wrapper](https://github.com/thelinmichael/spotify-web-api-
 
 ## Photos
 ![loginScreenshot](readme-images/login.png)
-![artistsScreenshot](readme-images/Screen Shot 2023-02-06 at 11.13.05 PM.png)
-![tracksScreenshot](readme-images/Screen Shot 2023-02-06 at 11.13.56 PM.png)
+![artistsScreenshot](readme-images/artists-view.png)
+![tracksScreenshot](readme-images/tracks-view.png)
 
 ## What's next?
 Optimizing the website to look nicer on mobile. Currently, this works best on a computer
