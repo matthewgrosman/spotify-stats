@@ -1,7 +1,5 @@
 # Spotifstats
 
-[spotifstats.com](https://www.spotifstats.com)
-
 ## What is this project?
 Spotifstats is a website that shows your top artists and songs from your Spotify listening history! 
 View your favorites across several time ranges to see how your listening patterns have 
